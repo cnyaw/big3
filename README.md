@@ -1,6 +1,7 @@
 # 逆大老2
 
-以很讚的遊戲編輯器製作。 https://good-ed.blogspot.com
+Created by Good Game Editor https://good-ed.blogspot.com <br/>
+Android download https://play.google.com/store/apps/details?id=weilican.big3
 
 * 遊戲使用整副牌52張＋2張鬼牌。
 * 牌型包含（單張，對子，三條，四條，同花順），同花順最少３張沒有張數上限。
