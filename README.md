@@ -1,4 +1,4 @@
-# 逆大老2
+# 逆轉大老2
 
 Created by Good Game Editor https://good-ed.blogspot.com <br/>
 Android download https://play.google.com/store/apps/details?id=weilican.big3
