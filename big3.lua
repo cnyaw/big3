@@ -638,6 +638,21 @@ function KillReverseMsg()
   end
 end
 
+function ToggleDebugMode(IsToggle)
+  if (EnableDebug) then
+    if (IsToggle) then
+      DebugMode = not DebugMode
+      for i = 0, 3 do
+        local pc = Players[i]
+        ResetCardsPos(pc)
+        ArrangeCards(pc)
+      end
+    end
+  else
+    DebugMode = false
+  end
+end
+
 function OnStepGame(param)
   -- Quit game?
   if (Input.IsKeyPushed(Input.ESCAPE)) then
@@ -707,18 +722,7 @@ function OnStepGame(param)
     return
   end
 
-  if (EnableDebug) then
-    if (PtInRect(mx, my, W - 40, 0, W, 40)) then -- Toggle debug mode.
-      DebugMode = not DebugMode
-      for i = 0, 3 do
-        local pc = Players[i]
-        ResetCardsPos(pc)
-        ArrangeCards(pc)
-      end
-    end
-  else
-    DebugMode = false
-  end
+  ToggleDebugMode(PtInRect(mx, my, W - 40, 0, W, 40))
 
   -- Sel set.
   local w = 82
