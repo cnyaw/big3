@@ -615,6 +615,29 @@ function SetRanking()
   end
 end
 
+function KillReverseMsg()
+  if (nil ~= msgReverse) then           -- Kill reverse msg.
+    Good.KillObj(msgReverse)
+    msgReverse = nil
+    Reverse = not Reverse
+    for i = 0, 3 do
+      local pc = Players[i]
+      SortCardsByNumber(pc)
+      ArrangeCards(pc)
+    end
+    if (2 == math.mod(Round, 4)) then
+      PossibleMoves = GenPossibleMoves(Players[2])
+    end
+    if (Reverse) then
+      PossibleCards[0] = PossibleCards[16]
+      PossibleCards[16] = 0
+    else
+      PossibleCards[16] = PossibleCards[0]
+      PossibleCards[0] = 0
+    end
+  end
+end
+
 function OnStepGame(param)
   -- Quit game?
   if (Input.IsKeyPushed(Input.ESCAPE)) then
@@ -648,26 +671,7 @@ function OnStepGame(param)
     return
   end
 
-  if (nil ~= msgReverse) then           -- Kill reverse msg.
-    Good.KillObj(msgReverse)
-    msgReverse = nil
-    Reverse = not Reverse
-    for i = 0, 3 do
-      local pc = Players[i]
-      SortCardsByNumber(pc)
-      ArrangeCards(pc)
-    end
-    if (2 == math.mod(Round, 4)) then
-      PossibleMoves = GenPossibleMoves(Players[2])
-    end
-    if (Reverse) then
-      PossibleCards[0] = PossibleCards[16]
-      PossibleCards[16] = 0
-    else
-      PossibleCards[16] = PossibleCards[0]
-      PossibleCards[0] = 0
-    end
-  end
+  KillReverseMsg()
 
   local r = math.mod(Round, 4)
   if (2 ~= r) then
