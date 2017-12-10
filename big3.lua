@@ -653,6 +653,23 @@ function ToggleDebugMode(IsToggle)
   end
 end
 
+function SelCardSet(pc, Index)
+  if (1 + Index ~= SelSet) then
+    SelSet = 1 + Index
+    SelIndex = 1
+  else
+    SelIndex = SelIndex + 1
+    if (#PossibleMoves[SelSet] < SelIndex) then
+      SelIndex = 1
+    end
+  end
+  ResetCardsPos(pc)
+  local m = PossibleMoves[SelSet][SelIndex]
+  for i = 1, #m do
+    ToggleSelCard(pc[m[i]])
+  end
+end
+
 function OnStepGame(param)
   -- Quit game?
   if (Input.IsKeyPushed(Input.ESCAPE)) then
@@ -732,20 +749,7 @@ function OnStepGame(param)
     local pm = PossibleMoves[1 + i]
     local xb = x + i * w + (w - 60)/2
     if (nil ~= pm and 0 < #pm and PtInRect(mx, my, xb - 10, y - 10, xb + 60 + 10, y + 34 + 20)) then
-      if (1 + i ~= SelSet) then
-        SelSet = 1 + i
-        SelIndex = 1
-      else
-        SelIndex = SelIndex + 1
-        if (#PossibleMoves[SelSet] < SelIndex) then
-          SelIndex = 1
-        end
-      end
-      ResetCardsPos(pc)
-      local m = PossibleMoves[SelSet][SelIndex]
-      for j = 1, #m do
-        ToggleSelCard(pc[m[j]])
-      end
+      SelCardSet(pc, i)
       return
     end
   end
