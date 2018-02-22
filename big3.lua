@@ -670,6 +670,21 @@ function SelCardSet(pc, Index)
   end
 end
 
+function SelCardSetChanged(mx, my, pc)
+  local w = 82
+  local x = (W - 5 * w) / 2
+  local y = H - 50
+  for i = 0, 4 do
+    local pm = PossibleMoves[1 + i]
+    local xb = x + i * w + (w - 60)/2
+    if (nil ~= pm and 0 < #pm and PtInRect(mx, my, xb - 10, y - 10, xb + 60 + 10, y + 34 + 20)) then
+      SelCardSet(pc, i)
+      return true
+    end
+  end
+  return false
+end
+
 function OnStepGame(param)
   -- Quit game?
   if (Input.IsKeyPushed(Input.ESCAPE)) then
@@ -741,17 +756,8 @@ function OnStepGame(param)
 
   ToggleDebugMode(PtInRect(mx, my, W - 40, 0, W, 40))
 
-  -- Sel set.
-  local w = 82
-  local x = (W - 5 * w) / 2
-  local y = H - 50
-  for i = 0, 4 do
-    local pm = PossibleMoves[1 + i]
-    local xb = x + i * w + (w - 60)/2
-    if (nil ~= pm and 0 < #pm and PtInRect(mx, my, xb - 10, y - 10, xb + 60 + 10, y + 34 + 20)) then
-      SelCardSet(pc, i)
-      return
-    end
+  if (SelCardSetChanged(mx, my, pc)) then   -- Sel set.
+    return
   end
 
   if (PtInRect(mx, my, W - 100, H - 100, W, H)) then -- Play card.
