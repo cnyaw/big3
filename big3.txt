@@ -6,13 +6,13 @@ texs=0 1 6 7 8 9 10 11 12 13 14 15 16 22 19 20 21 24 31 32 33 34 35 47 48 49 39 
 levels=18 37 2 45
 
 [scripts]
-5=./big3.lua
-23=./title.lua
-44=./selai.lua
+5=./script/big3.lua
+23=./script/title.lua
+44=./script/selai.lua
 51=../good/samples/Util.lua
-4=./helper.lua
-52=./genmov.lua
-56=./round.lua
+4=./script/helper.lua
+52=./script/genmov.lua
+56=./script/round.lua
 
 [tex0]
 name=card
