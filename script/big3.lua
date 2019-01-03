@@ -292,25 +292,30 @@ function GrayOutLastPlayCards()
   end
 end
 
-function UpdatePlayerScore(win)
+function UpdateLosePlayerScore(i)
+  local pc = Players[i]
+  local score = pc.n
+  for j = 1, pc.n do
+    local c = pc[j].c
+    local n = GetNumber(c)
+    if (JOKER1 == c or JOKER2 == c or 1 == n) then
+      score = score * 2
+    end
+  end
+  local s = string.format('-%d', score)
+  local o = GenStrObj(-1, (W - 35)/2 + OFFSET_SCORE[2 * i + 1], (H - 29)/2 + OFFSET_SCORE[2 * i + 2], s, nil, nil, nil, 0xffff0000)
+  PlayerScore[i] = PlayerScore[i] - score
+  return o, score
+end
+
+function UpdatePlayerScores(win)
   local update = {}
   local Gain = 0
   for i = 0, 3 do
     if (win ~= i) then
-      local pc = Players[i]
-      local score = pc.n
-      for j = 1, pc.n do
-        local c = pc[j].c
-        local n = GetNumber(c)
-        if (JOKER1 == c or JOKER2 == c or 1 == n) then
-          score = score * 2
-        end
-      end
-      local s = string.format('-%d', score)
-      local o = GenStrObj(-1, (W - 35)/2 + OFFSET_SCORE[2 * i + 1], (H - 29)/2 + OFFSET_SCORE[2 * i + 2], s, nil, nil, nil, 0xffff0000)
+      local o, score = UpdateLosePlayerScore(i)
       update[i] = o
       Gain = Gain + score
-      PlayerScore[i] = PlayerScore[i] - score
     end
   end
   PlayerScore[win] = PlayerScore[win] + Gain
@@ -370,7 +375,7 @@ function PlayCards(pc, m)
       end
       if (0 ~= TotalRound) then
         CurrRound = CurrRound + 1
-        UpdatePlayerScore(r)
+        UpdatePlayerScores(r)
       end
       return
     end
