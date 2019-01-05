@@ -292,6 +292,10 @@ function GrayOutLastPlayCards()
   end
 end
 
+function GenScoreStrObj(parent, idxPlayer, s, color)
+  return GenStrObj(parent, (W - 35)/2 + OFFSET_SCORE[2 * idxPlayer + 1], (H - 29)/2 + OFFSET_SCORE[2 * idxPlayer + 2], s, nil, nil, nil, color)
+end
+
 function UpdateLosePlayerScore(i)
   local pc = Players[i]
   local score = pc.n
@@ -303,7 +307,7 @@ function UpdateLosePlayerScore(i)
     end
   end
   local s = string.format('-%d', score)
-  local o = GenStrObj(-1, (W - 35)/2 + OFFSET_SCORE[2 * i + 1], (H - 29)/2 + OFFSET_SCORE[2 * i + 2], s, nil, nil, nil, 0xffff0000)
+  local o = GenScoreStrObj(-1, i, s, 0xffff0000)
   PlayerScore[i] = PlayerScore[i] - score
   return o, score
 end
@@ -320,7 +324,7 @@ function UpdatePlayerScores(win)
   end
   PlayerScore[win] = PlayerScore[win] + Gain
   local s = string.format('+%d', Gain)
-  local o = GenStrObj(-1, (W - 35)/2 + OFFSET_SCORE[2 * win + 1], (H - 29)/2 + OFFSET_SCORE[2 * win + 2], s, nil, nil, nil, 0xff00ff00)
+  local o = GenScoreStrObj(-1, win, s, 0xff00ff00)
   update[win] = o
   SetRoundScores(CurrRound - 1)
   for i = 0, 3 do
@@ -548,9 +552,7 @@ function SetRoundScores(r)
   AdjustStrObj(o)
   for i = 0, 3 do
     local s = string.format("%d", PlayerScore[i])
-    local x = (W - 35)/2 + OFFSET_SCORE[2 * i + 1]
-    local y = (H - 29)/2 + OFFSET_SCORE[2 * i + 2]
-    local o = GenStrObj(RoundMsg, x, y, s, nil, nil, nil, 0x80ffffff)
+    local o = GenScoreStrObj(RoundMsg, i, s, 0x80ffffff)
     AdjustStrObj(o)
   end
 end
