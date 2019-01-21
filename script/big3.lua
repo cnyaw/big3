@@ -692,22 +692,23 @@ function SelCardSetChanged(mx, my, pc)
   return false
 end
 
-function OnStepGame(param)
-  -- Quit game?
+function isQuitGame()
   if (Input.IsKeyPushed(Input.ESCAPE)) then
     Level.OnStep = OnStepQuit
     ShowMsgBox(48)
-    return
+    return true
+  else
+    return false
   end
+end
 
-  -- Game is over?
+function isGameOver()
   if (3 == #ClearCount) then
     GrayOutLastPlayCards()
     AIDelay = 80
     Level.OnStep = OnStepOver
-    return
+    return true
   end
-
   if (0 ~= TotalRound and 0 ~= #ClearCount) then -- One is clear in score mode.
     GrayOutLastPlayCards()
     AIDelay = 180
@@ -716,6 +717,17 @@ function OnStepGame(param)
     else
       Level.OnStep = OnStepNextRound
     end
+    return true
+  end
+  return false
+end
+
+function OnStepGame(param)
+  if (isQuitGame()) then
+    return
+  end
+
+  if (isGameOver()) then
     return
   end
 
