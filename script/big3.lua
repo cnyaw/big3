@@ -722,30 +722,7 @@ function isGameOver()
   return false
 end
 
-function OnStepGame(param)
-  if (isQuitGame()) then
-    return
-  end
-
-  if (isGameOver()) then
-    return
-  end
-
-  -- AI round.
-  if (0 < AIDelay) then
-    AIDelay = AIDelay - 1
-    return
-  end
-
-  KillReverseMsg()
-
-  local r = math.mod(Round, 4)
-  if (2 ~= r) then
-    AIMove(r)
-    return
-  end
-
-  -- Player round.
+function PlayMyRound()
   local pc = Players[2]
   if (0 >= pc.n) then                   -- Clear?
     PassOne()
@@ -794,6 +771,32 @@ function OnStepGame(param)
     ResetCardsPos(pc)
     PassOne()
   end
+end
+
+function OnStepGame(param)
+  if (isQuitGame()) then
+    return
+  end
+
+  if (isGameOver()) then
+    return
+  end
+
+  -- AI round.
+  if (0 < AIDelay) then
+    AIDelay = AIDelay - 1
+    return
+  end
+
+  KillReverseMsg()
+
+  local r = math.mod(Round, 4)
+  if (2 ~= r) then
+    AIMove(r)
+    return
+  end
+
+  PlayMyRound()
 end
 
 function OnStepQuit(param)
