@@ -88,30 +88,25 @@ function CompareNumber(n1, n2)
   end
 end
 
-function SortCardsByNumber(p)           -- Sort by number then face.
+function SortCards_i(p, f)
   for i = 1, p.n do
     for j = 1, p.n - i do
       local c1, c2 = p[j].c, p[j + 1].c
       local f1, f2 = GetFace(c1), GetFace(c2)
       local n1, n2 = GetCompareNumber(c1), GetCompareNumber(c2)
-      if ((p[j].test and not p[j + 1].test) or (n1 == n2 and f1 < f2) or CompareNumber(n1, n2)) then
+      if ((p[j].test and not p[j + 1].test) or f(f1, f2, n1, n2)) then
         SwapCards(p, j)
       end
     end
   end
 end
 
+function SortCardsByNumber(p)           -- Sort by number then face.
+  SortCards_i(p, function(f1,f2,n1,n2) return (n1 == n2 and f1 < f2) or CompareNumber(n1, n2) end)
+end
+
 function SortCardsByFace(p)             -- Sort by face then number.
-  for i = 1, p.n do
-    for j = 1, p.n - i do
-      local c1, c2 = p[j].c, p[j + 1].c
-      local f1, f2 = GetFace(c1), GetFace(c2)
-      local n1, n2 = GetCompareNumber(c1), GetCompareNumber(c2)
-      if ((p[j].test and not p[j + 1].test) or (f1 == f2 and CompareNumber(n1, n2)) or (f1 > f2)) then
-        SwapCards(p, j)
-      end
-    end
-  end
+  SortCards_i(p, function(f1,f2,n1,n2) return (f1 == f2 and CompareNumber(n1, n2)) or (f1 > f2) end)
 end
 
 function SortPossibleMoves(p, pm)
