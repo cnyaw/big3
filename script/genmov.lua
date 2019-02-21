@@ -92,32 +92,7 @@ function FilterFirstRoundMoves(p, Moves) -- Filter moves not contain club3.
   end
 end
 
-function AddJokerMoves(p, s, n0, Moves, j1)
-  -- Add moves of a kind.
-  for i = 3,1,-1 do
-    local pm = Moves[i]
-    if (nil ~= pm) then
-      local pm2 = Moves[i + 1]
-      if (nil == pm2) then
-        pm2 = {}
-      end
-      for j = 1, #pm do
-        local m = pm[j]
-        local nm = {}
-        for k = 1, #m do
-          nm[k] = m[k]
-          p[m[k]].flag[i + 1] = true
-        end
-        if (not AITesting) then
-          table.insert(nm, j1.i)
-          table.insert(pm2, nm)
-        end
-      end
-      SortPossibleMoves(p, pm2)
-      Moves[i + 1] = pm2
-    end
-  end
-  -- Add flush moves.
+function AddJokerFlushMoves(p, s, n0, Moves, j1)
   local pm5 = Moves[5]
   if (nil ~= pm5) then
     for i = 1, #pm5 do
@@ -171,7 +146,35 @@ function AddJokerMoves(p, s, n0, Moves, j1)
     SortPossibleMoves(p, pm5)
     Moves[5] = pm5
   end
-  -- Add new joker single moves.
+end
+
+function AddJokerKindMoves(p, n0, Moves, j1)
+  for i = 3,1,-1 do
+    local pm = Moves[i]
+    if (nil ~= pm) then
+      local pm2 = Moves[i + 1]
+      if (nil == pm2) then
+        pm2 = {}
+      end
+      for j = 1, #pm do
+        local m = pm[j]
+        local nm = {}
+        for k = 1, #m do
+          nm[k] = m[k]
+          p[m[k]].flag[i + 1] = true
+        end
+        if (not AITesting) then
+          table.insert(nm, j1.i)
+          table.insert(pm2, nm)
+        end
+      end
+      SortPossibleMoves(p, pm2)
+      Moves[i + 1] = pm2
+    end
+  end
+end
+
+function AddJokerSingleMoves(p, n0, Moves, j1)
   if (CompareNumber(GetCompareNumber(j1.c), n0)) then
     local pm = Moves[1]
     if (nil == pm) then
@@ -184,6 +187,12 @@ function AddJokerMoves(p, s, n0, Moves, j1)
       Moves[1] = pm
     end
   end
+end
+
+function AddJokerMoves(p, s, n0, Moves, j1)
+  AddJokerKindMoves(p, n0, Moves, j1)
+  AddJokerFlushMoves(p, s, n0, Moves, j1)
+  AddJokerSingleMoves(p, n0, Moves, j1)
 end
 
 function GenJokerMoves(p, s, n0, Moves) -- Gen joker moves.
