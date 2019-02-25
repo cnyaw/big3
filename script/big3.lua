@@ -36,6 +36,30 @@ local PossibleCards = {}                -- Possible cards of NPC that not play.
 
 local MsgBox = nil
 
+function GenInitCardsObj()
+  Round = nil
+  for p = 0, 3 do                       -- Gen cards obj.
+    local pc = Players[p]
+    pc.p = p
+    for i = 1, pc.n do
+      local c = pc[i]
+      if (CLUB3 == c) then
+        Round = p
+      end
+      local o = Good.GenObj(-1, 0)
+      local param = Good.GetParam(o)
+      param.c = c
+      param.i = i
+      param.o = o
+      param.test = false
+      pc[i] = param
+      Good.SetDim(o, CX_CARD * GetNumber(c), CY_CARD * GetFace(c), CX_CARD, CY_CARD)
+    end
+    SortCardsByNumber(pc)
+    ArrangeCards(pc)
+  end
+end
+
 function InitCards()
   local Cards = {}
 
@@ -84,27 +108,7 @@ function InitCards()
     end
   end
 
-  Round = nil
-  for p = 0, 3 do                       -- Gen cards obj.
-    local pc = Players[p]
-    pc.p = p
-    for i = 1, pc.n do
-      local c = pc[i]
-      if (CLUB3 == c) then
-        Round = p
-      end
-      local o = Good.GenObj(-1, 0)
-      local param = Good.GetParam(o)
-      param.c = c
-      param.i = i
-      param.o = o
-      param.test = false
-      pc[i] = param
-      Good.SetDim(o, CX_CARD * GetNumber(c), CY_CARD * GetFace(c), CX_CARD, CY_CARD)
-    end
-    SortCardsByNumber(pc)
-    ArrangeCards(pc)
-  end
+  GenInitCardsObj()
 end
 
 function ArrangeCards(pc)
