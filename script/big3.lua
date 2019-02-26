@@ -60,6 +60,32 @@ function GenInitCardsObj()
   end
 end
 
+function InitPlayerSelAi()
+  if (0 ~= TotalRound) then
+    -- Round mode.
+    for i = 0, 3 do
+      if (2 ~= i) then
+        Players[i].AISel = math.random(2)
+      end
+    end
+  elseif (RandAI) then
+    -- Practice with 3 NPC.
+    local AI = {}
+    for i = 0, 2 do
+      AI[i] = i
+    end
+    RandShuffle(AI, 2)
+    Players[0].AISel = AI[0]
+    Players[1].AISel = AI[1]
+    Players[3].AISel = AI[2]
+  else
+    -- Practice with one NPC.
+    for i = 0, 3 do
+      Players[i].AISel = AISel
+    end
+  end
+end
+
 function InitCards()
   local Cards = {}
 
@@ -77,7 +103,6 @@ function InitCards()
   for i = 0, 3 do                       -- Deal cards to 4 players.
     local pc = {}
     pc.n = 0
-    pc.AISel = AISel
     Players[i] = pc
   end
   for i = 0, 53 do
@@ -89,25 +114,7 @@ function InitCards()
     PossibleCards[n] = PossibleCards[n] + 1
   end
 
-  if (RandAI) then                      -- Random select AI.
-    local AI = {}
-    for i = 0, 2 do
-      AI[i] = i
-    end
-    RandShuffle(AI, 2)
-    Players[0].AISel = AI[0]
-    Players[1].AISel = AI[1]
-    Players[3].AISel = AI[2]
-  end
-
-  if (0 ~= TotalRound) then
-    for i = 0, 3 do
-      if (2 ~= i) then
-        Players[i].AISel = math.random(2)
-      end
-    end
-  end
-
+  InitPlayerSelAi()
   GenInitCardsObj()
 end
 
