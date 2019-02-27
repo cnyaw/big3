@@ -36,6 +36,28 @@ local PossibleCards = {}                -- Possible cards of NPC that not play.
 
 local MsgBox = nil
 
+function InitDealCards()
+  local Cards = {}
+  for i = 0, 53 do
+    Cards[i] = i
+  end
+  RandShuffle(Cards, 53)
+  -- Deal cards to 4 players.
+  for i = 0, 3 do
+    local pc = {}
+    pc.n = 0
+    Players[i] = pc
+  end
+  for i = 0, 53 do
+    local pc = Players[math.mod(i, 4)]
+    pc.n = pc.n + 1
+    local c = Cards[i]
+    pc[pc.n] = c
+    local n = 1 + GetCompareNumber(c)
+    PossibleCards[n] = PossibleCards[n] + 1
+  end
+end
+
 function GenInitCardsObj()
   Round = nil
   for p = 0, 3 do                       -- Gen cards obj.
@@ -87,33 +109,12 @@ function InitPlayerSelAi()
 end
 
 function InitCards()
-  local Cards = {}
-
-  for i = 0, 53 do
-    Cards[i] = i
-  end
-
-  RandShuffle(Cards, 53)
-
   PossibleCards = {}                    -- Init possible cards of NPC.
   for i = 0,16 do
     PossibleCards[i] = 0
   end
 
-  for i = 0, 3 do                       -- Deal cards to 4 players.
-    local pc = {}
-    pc.n = 0
-    Players[i] = pc
-  end
-  for i = 0, 53 do
-    local pc = Players[math.mod(i, 4)]
-    pc.n = pc.n + 1
-    local c = Cards[i]
-    pc[pc.n] = c
-    local n = 1 + GetCompareNumber(c)
-    PossibleCards[n] = PossibleCards[n] + 1
-  end
-
+  InitDealCards()
   InitPlayerSelAi()
   GenInitCardsObj()
 end
