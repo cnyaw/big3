@@ -608,23 +608,27 @@ function ShowMsgBox(msg)
   Good.SetPos(o, (w1-w2)/2, 70)
 end
 
-function SetRanking()
-  if (0 == TotalRound) then
-    return
-  end
-  local PlayerRank = {0, 1, 2, 3}
+function SortPlayerScore(Rank)
   for i = 0, 2 do
     for j = i, 3 do
       if (PlayerScore[i] < PlayerScore[j]) then
         local tmp = PlayerScore[i]
         PlayerScore[i] = PlayerScore[j]
         PlayerScore[j] = tmp
-        tmp = PlayerRank[i + 1]
-        PlayerRank[i + 1] = PlayerRank[j + 1]
-        PlayerRank[j + 1] = tmp
+        tmp = Rank[i + 1]
+        Rank[i + 1] = Rank[j + 1]
+        Rank[j + 1] = tmp
       end
     end
   end
+end
+
+function SetRanking()
+  if (0 == TotalRound) then
+    return
+  end
+  local PlayerRank = {0, 1, 2, 3}
+  SortPlayerScore(PlayerRank)
   for i = 0, 3 do
     local x = (W - 100)/2 + OFFSET_RANKING[2 * PlayerRank[i + 1] + 1]
     local y = (H - 100)/2 + OFFSET_RANKING[2 * PlayerRank[i + 1] + 2]
