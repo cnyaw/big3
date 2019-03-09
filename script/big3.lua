@@ -113,7 +113,6 @@ function InitCards()
   for i = 0,16 do
     PossibleCards[i] = 0
   end
-
   InitDealCards()
   InitPlayerSelAi()
   GenInitCardsObj()
@@ -344,17 +343,9 @@ function UpdatePlayerScores(win)
   end
 end
 
-function PlayCards(pc, m)
-  Good.KillAllChild(PassCount)
-  if (nil ~= SetPanel) then
-    Good.KillObj(SetPanel)
-  end
-  Good.SetVisible(btnPass, 0)
-  Good.SetVisible(btnGo, 0)
-  local r = math.mod(Round, 4)
+function PlayCardsToTable(pc, m, r)
   local nx = (W - CX_CARD)/2 + OFFSET_INDICATOR[2 * r + 1]/2 + math.random(-10, 10)
   local ny = (H - CY_CARD)/2 + OFFSET_INDICATOR[2 * r + 2]/2 + math.random(-10, 10)
-  GrayOutLastPlayCards()
   LastSet = {}
   LastSet.n = #m
   for i = 1, #m do
@@ -371,6 +362,18 @@ function PlayCards(pc, m)
     PossibleCards[n] = PossibleCards[n] - 1
   end
   SortMoves(pc, m)
+end
+
+function PlayCards(pc, m)
+  Good.KillAllChild(PassCount)
+  if (nil ~= SetPanel) then
+    Good.KillObj(SetPanel)
+  end
+  Good.SetVisible(btnPass, 0)
+  Good.SetVisible(btnGo, 0)
+  local r = math.mod(Round, 4)
+  GrayOutLastPlayCards()
+  PlayCardsToTable(pc, m, r)
   for i = #m, 1, -1 do
     table.remove(pc, m[i])
   end
