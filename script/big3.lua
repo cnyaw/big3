@@ -400,10 +400,7 @@ function PlayCards(pc, m)
     end
   end
   if (4 == SelSet) then                 -- Four of a kind, reverse order!
-    msgReverse = Good.GenObj(-1, 11, 'Blink')
-    Good.SetBgColor(msgReverse, 0xffff0000)
-    local x,y,w,h = Good.GetDim(msgReverse)
-    Good.SetPos(msgReverse, (W - w)/2, (H - h)/2)
+    AddReverseMsg()
   else
     ArrangeCards(pc)
   end
@@ -639,6 +636,13 @@ function SetRanking()
     Good.SetPos(o, x, y)
     local s = GenStrObj(o, (100 - 16)/2, 12, string.format('%d', (1 + i)), nil, nil, nil, 0xffff0000)
   end
+end
+
+function AddReverseMsg()
+  msgReverse = Good.GenObj(-1, 11, 'Blink')
+  Good.SetBgColor(msgReverse, 0xffff0000)
+  local x,y,w,h = Good.GetDim(msgReverse)
+  Good.SetPos(msgReverse, (W - w)/2, (H - h)/2)
 end
 
 function KillReverseMsg()
