@@ -399,15 +399,13 @@ function PlayCards(pc, m)
       return
     end
   end
-  if (4 == SelSet) then                 -- Four of a kind, reverse order!
-    AddReverseMsg()
-  else
-    ArrangeCards(pc)
-  end
   FirstRound = false
   NextRound()
-  if (4 == SelSet) then                 -- Reverse!
+  if (4 == SelSet) then                 -- Four of a kind, reverse order!
+    AddReverseMsg()
     AIDelay = 130
+  else
+    ArrangeCards(pc)
   end
 end
 
