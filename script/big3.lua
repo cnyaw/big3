@@ -223,6 +223,17 @@ function GetScore(p)
   return GetCardsScore(Total, p, pc)
 end
 
+function TmpReverseGetScore(p, TmpRev)
+  if (TmpRev) then
+    Reverse = not Reverse
+  end
+  local s,c = GetScore(p)
+  if (TmpRev) then
+    Reverse = not Reverse
+  end
+  return s,c
+end
+
 function ResetCardsPos(p)
   for i = 1, p.n do
     local param = p[i]
@@ -449,13 +460,7 @@ function ChooseBestMove2(pc)
           ArrangeCards(pc)
           pc.n = pc.n - #m
           local TempPossibleMoves = GenPossibleMoves(pc) -- Regen possible moves to get new card flags.
-          if (4 == j) then
-            Reverse = not Reverse
-          end
-          local s,c = GetScore(pc)
-          if (4 == j) then
-            Reverse = not Reverse
-          end
+          local s,c = TmpReverseGetScore(pc, 4 == j)
           if ((1 == pc.AISel and BestScore > s) or (2 == pc.AISel and (BestScore > s or BestCardsLeft > c))) then
             BestScore = s
             BestCardsLeft = c
