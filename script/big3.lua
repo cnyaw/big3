@@ -438,6 +438,18 @@ function PassOne()
   NextRound()
 end
 
+function MarkTestCards(pc, m)
+  for i = 1, #m do
+    pc[m[i]].test = true                -- Mark cards to pretent played.
+  end
+end
+
+function UnmarkTestCards(pc)
+  for i = 1, pc.n do
+    pc[i].test = false                  -- Undo mark.
+  end
+end
+
 function ChooseBestMove2(pc)
   AITesting = true
   local BestScore = 1000
@@ -449,9 +461,7 @@ function ChooseBestMove2(pc)
       for j = 1, #pm do
         local m = pm[j]
         if (nil == LastSet or #m == #LastSet) then
-          for k = 1,#m do                 -- Mark cards to pretent played.
-            pc[m[k]].test = true
-          end
+          MarkTestCards(pc, m)
           local TempMove = {}             -- Save the move.
           for k = 1,#m do
             TempMove[k] = pc[m[k]].c
@@ -468,9 +478,7 @@ function ChooseBestMove2(pc)
             SelSet = i
           end
           pc.n = pc.n + #m
-          for i = 1,pc.n do               -- Undo mark.
-            pc[i].test = false
-          end
+          UnmarkTestCards(pc)
           SortCardsByNumber(pc)
           ArrangeCards(pc)
         end
