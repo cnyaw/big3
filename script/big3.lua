@@ -118,6 +118,32 @@ function InitCards()
   GenInitCardsObj()
 end
 
+function GetCardPos(p, i)
+  local x, y
+  if (0 == p) then                      -- Top player.
+    local OFFSET_X = 15
+    local CW = (W - (8 * OFFSET_X + CX_CARD))/2 + 40
+    x = CW + OFFSET_X * (8 - i - 1)
+    y = 5
+  elseif (1 == p) then                  -- Left player.
+    local OFFSET_Y = 15
+    local CH = (H - (8 * OFFSET_Y + CX_CARD))/2 - 25
+    x = 14
+    y = CH/3 + OFFSET_Y * (i - 1)
+  elseif (2 == p) then                  -- Bottom player.
+    local OFFSET_X = 25
+    local CW = (W - (12 * OFFSET_X + CX_CARD))/2
+    x = CW + OFFSET_X * (i - 1)
+    y = H - CY_CARD - 5
+  elseif (3 == p) then                  -- Right player.
+    local OFFSET_Y = 15
+    local CH = (H - (8 * OFFSET_Y + CX_CARD))/2
+    x = W - 70
+    y = CH + OFFSET_Y * (8 - i - 1)
+  end
+  return x, y
+end
+
 function ArrangeCards(pc)
   local p = pc.p
   for i = 1, pc.n do
@@ -126,35 +152,17 @@ function ArrangeCards(pc)
     local ox = CX_CARD * GetNumber(c)
     local oy = CY_CARD * GetFace(c)
     local o = pc[i].o
-    Good.AddChild(-1, o)              -- Re-zorder.
-    local x, y
-    if (0 == p) then                  -- Top player.
-      local OFFSET_X = 15
-      local CW = (W - (8 * OFFSET_X + CX_CARD))/2 + 40
-      x = CW + OFFSET_X * (8 - i - 1)
-      y = 5
-    elseif (1 == p) then              -- Left player.
-      local OFFSET_Y = 15
-      local CH = (H - (8 * OFFSET_Y + CX_CARD))/2 - 25
-      x = 14
-      y = CH/3 + OFFSET_Y * (i - 1)
+    Good.AddChild(-1, o)                -- Re-zorder.
+    local x, y = GetCardPos(p, i)
+    Good.SetPos(o, x, y)
+    if (1 == p) then                    -- Left player.
       Good.SetAnchor(o, 0.5, 0.5)
       Good.SetRot(o, 90)
-    elseif (2 == p) then              -- Bottom player.
-      local OFFSET_X = 25
-      local CW = (W - (12 * OFFSET_X + CX_CARD))/2
-      x = CW + OFFSET_X * (i - 1)
-      y = H - CY_CARD - 5
-    elseif (3 == p) then              -- Right player.
-      local OFFSET_Y = 15
-      local CH = (H - (8 * OFFSET_Y + CX_CARD))/2
-      x = W - 70
-      y = CH + OFFSET_Y * (8 - i - 1)
+    elseif (3 == p) then                -- Right player.
       Good.SetAnchor(o, 0.5, 0.5)
       Good.SetRot(o, 270)
     end
-    Good.SetPos(o, x, y)
-    if (2 ~= p) then
+    if (2 ~= p) then                -- Bottom player.
       if (DebugMode) then
         Good.SetTexId(o, 0)
         Good.SetDim(o, CX_CARD * GetNumber(c), CY_CARD * GetFace(c), CX_CARD, CY_CARD)
