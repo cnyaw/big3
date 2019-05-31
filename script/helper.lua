@@ -56,6 +56,15 @@ GrayOut.OnStep = function(param)
   end
 end
 
+function GetInitCards()
+  local Cards = {}
+  for i = 0, 53 do
+    Cards[i] = i
+  end
+  RandShuffle(Cards, 53)
+  return Cards
+end
+
 function RandShuffle(a, len)
   for i = 1, len do
     local r = math.random(i + 1) - 1

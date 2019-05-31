@@ -37,12 +37,8 @@ local PossibleCards = {}                -- Possible cards of NPC that not play.
 local MsgBox = nil
 
 function InitDealCards()
-  local Cards = {}
-  for i = 0, 53 do
-    Cards[i] = i
-  end
-  RandShuffle(Cards, 53)
   -- Deal cards to 4 players.
+  local Cards = GetInitCards()
   for i = 0, 3 do
     local pc = {}
     pc.n = 0
