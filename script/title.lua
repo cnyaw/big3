@@ -15,12 +15,10 @@ Title.OnStep = function(param)
     local o = Good.PickObj(mx, my, Good.TEXBG)
     if (27 == o) then                   -- Click on the diamond.
       param.EnableDebug5 = param.EnableDebug5 + 1
+      EnableDebug = 5 == param.EnableDebug5
     elseif (30 == o) then               -- Select round.
       Good.GenObj(-1, 45)
     elseif (50 == o) then               -- Select AI to play game.
-      if (5 == param.EnableDebug5) then
-        EnableDebug = true
-      end
       Good.GenObj(-1, 37)
     end
   end
