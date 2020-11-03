@@ -158,7 +158,7 @@ function ArrangeCards(pc)
       Good.SetAnchor(o, 0.5, 0.5)
       Good.SetRot(o, 270)
     end
-    if (2 ~= p) then                -- Bottom player.
+    if (2 ~= p) then                    -- Bottom player.
       if (DebugMode) then
         Good.SetTexId(o, 0)
         Good.SetDim(o, CX_CARD * GetNumber(c), CY_CARD * GetFace(c), CX_CARD, CY_CARD)
@@ -377,6 +377,10 @@ function PlayCardsToTable(pc, m, r)
     PossibleCards[n] = PossibleCards[n] - 1
   end
   SortMoves(pc, m)
+  for i = #m, 1, -1 do
+    table.remove(pc, m[i])
+  end
+  pc.n = pc.n - #m
 end
 
 function PlayCards(pc, m)
@@ -389,10 +393,6 @@ function PlayCards(pc, m)
   local r = math.mod(Round, 4)
   GrayOutLastPlayCards()
   PlayCardsToTable(pc, m, r)
-  for i = #m, 1, -1 do
-    table.remove(pc, m[i])
-  end
-  pc.n = pc.n - #m
   if (0 >= pc.n) then                   -- Cards clear.
     local o = GenTexObj(-1, 7, 100, 50, 0, 0)
     Good.SetPos(o, (W - 100)/2 + OFFSET_CLEAR[2 * r + 1], (H - 50)/2 + OFFSET_CLEAR[2 * r + 2])
@@ -454,7 +454,7 @@ function UnmarkTestCards(pc)
   end
 end
 
-function ChooseBestMove2(pc)
+function ChooseLowestScorePossibleMove(pc)
   AITesting = true
   local BestScore = 1000
   local BestCardsLeft = 1000
@@ -466,7 +466,7 @@ function ChooseBestMove2(pc)
         local m = pm[j]
         if (nil == LastSet or #m == #LastSet) then
           MarkTestCards(pc, m)
-          local TempMove = {}             -- Save the move.
+          local TempMove = {}           -- Save the move.
           for k = 1,#m do
             TempMove[k] = pc[m[k]].c
           end
@@ -492,7 +492,12 @@ function ChooseBestMove2(pc)
   AITesting = false
   SortCardsByNumber(pc)
   ArrangeCards(pc)
-  if (nil ~= BestMove) then             -- Play best move.
+  return BestMove
+end
+
+function ChooseBestMove2(pc)
+  local BestMove = ChooseLowestScorePossibleMove(pc)
+  if (nil ~= BestMove) then
     local m = {}
     for i = 1, #BestMove do
       for j = 1, pc.n do
@@ -790,7 +795,7 @@ function PlayMyRound()
 
   ToggleDebugMode(PtInRect(mx, my, W - 40, 0, W, 40))
 
-  if (SelCardSetChanged(mx, my, pc)) then   -- Sel set.
+  if (SelCardSetChanged(mx, my, pc)) then -- Sel set.
     return
   end
 
