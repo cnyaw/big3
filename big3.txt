@@ -143,41 +143,49 @@ objects=29 25 17 26 27 28 30 50
 texture=1
 repX=1
 repY=1
+dim=0 0 100 100
 
 [object25]
 texture=22
 x=80
 y=256
+dim=0 0 185 50
 
 [object17]
 texture=19
 x=320
 y=128
+dim=0 0 84 99
 
 [object26]
 texture=20
 x=320
 y=32
+dim=0 0 96 99
 
 [object27]
 texture=21
 x=224
 y=128
+dim=0 0 96 99
 
 [object28]
 texture=24
 x=224
 y=32
+dim=0 0 97 100
 
 [object30]
 texture=31
 x=496
 y=160
+dim=0 0 100 95
 
 [object50]
 texture=39
 x=496
 y=272
+dim=0 0 100 95
 
 [level37]
 name=selai
@@ -188,6 +196,7 @@ objects=38 43 59 55 40 57 41 58 42 53 54
 texture=1
 repX=1
 repY=1
+dim=0 0 100 100
 
 [object43]
 bgColor=255 0 0
@@ -207,11 +216,13 @@ dim=0 0 180 200
 texture=35
 x=480
 y=112
+dim=0 0 96 96
 
 [object40]
 texture=33
 x=32
 y=160
+dim=0 0 68 89
 
 [object57]
 bgColor=255 0 0
@@ -224,6 +235,7 @@ dim=0 0 100 120
 texture=34
 x=160
 y=160
+dim=0 0 77 90
 
 [object58]
 bgColor=255 0 0
@@ -236,16 +248,19 @@ dim=0 0 100 120
 texture=35
 x=300
 y=160
+dim=0 0 96 96
 
 [object53]
 texture=33
 x=448
 y=192
+dim=0 0 68 89
 
 [object54]
 texture=34
 x=528
 y=192
+dim=0 0 77 90
 
 [level2]
 name=game
@@ -256,6 +271,7 @@ objects=3
 texture=1
 repX=1
 repY=1
+dim=0 0 100 100
 
 [level45]
 name=round
@@ -266,29 +282,35 @@ objects=46 61 62 63 64 65
 texture=1
 repX=1
 repY=1
+dim=0 0 100 100
 
 [object61]
 texture=60
 x=16
 y=149
+dim=0 0 100 95
 
 [object62]
 texture=60
 x=144
 y=149
+dim=0 0 100 95
 
 [object63]
 texture=60
 x=272
 y=149
+dim=0 0 100 95
 
 [object64]
 texture=60
 x=400
 y=149
+dim=0 0 100 95
 
 [object65]
 texture=60
 x=528
 y=149
+dim=0 0 100 95
 
