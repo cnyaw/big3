@@ -388,8 +388,8 @@ function PlayCards(pc, m)
   if (nil ~= SetPanel) then
     Good.KillObj(SetPanel)
   end
-  Good.SetVisible(btnPass, 0)
-  Good.SetVisible(btnGo, 0)
+  Good.SetVisible(btnPass, Good.INVISIBLE)
+  Good.SetVisible(btnGo, Good.INVISIBLE)
   local r = math.mod(Round, 4)
   GrayOutLastPlayCards()
   PlayCardsToTable(pc, m, r)
@@ -431,13 +431,13 @@ function PassOne()
   if (nil ~= SetPanel) then
     Good.KillObj(SetPanel)
   end
-  Good.SetVisible(btnPass, 0)
-  Good.SetVisible(btnGo, 0)
+  Good.SetVisible(btnPass, Good.INVISIBLE)
+  Good.SetVisible(btnGo, Good.INVISIBLE)
   local r = math.mod(Round, 4)
   local o = GenTexObj(PassCount, 6, 28, 25)
   Good.SetPos(o, W/2 + OFFSET_PASS[2 * r + 1], H/2 + OFFSET_PASS[2 * r + 2])
   if (0 >= Players[r].n) then
-    Good.SetVisible(o, 0)
+    Good.SetVisible(o, Good.INVISIBLE)
   end
   NextRound()
 end
@@ -609,10 +609,10 @@ Level.OnCreate = function(param)
   SetPanel = nil
   btnGo = GenTexObj(-1, 10, 100, 100, 0, 0)
   Good.SetPos(btnGo, W - 100, H - 100)
-  Good.SetVisible(btnGo, 0)
+  Good.SetVisible(btnGo, Good.INVISIBLE)
   btnPass = GenTexObj(-1, 9, 100, 100, 0, 0)
   Good.SetPos(btnPass, 0, H - 100)
-  Good.SetVisible(btnPass, 0)
+  Good.SetVisible(btnPass, Good.INVISIBLE)
   if (2 == Round) then
     MyRound()
   end
@@ -778,9 +778,9 @@ function PlayMyRound()
   end
 
   if (not FirstRound and 3 > Good.GetChildCount(PassCount)) then -- Enable pass and go btn.
-    Good.SetVisible(btnPass, 1)
+    Good.SetVisible(btnPass, Good.VISIBLE)
   end
-  Good.SetVisible(btnGo, 1)
+  Good.SetVisible(btnGo, Good.VISIBLE)
 
   if (not Input.IsKeyPushed(Input.LBUTTON)) then -- No touch?
     return
@@ -800,7 +800,7 @@ function PlayMyRound()
   end
 
   if (PtInRect(mx, my, W - 100, H - 100, W, H)) then -- Play card.
-    if (0 == Good.GetVisible(btnGo)) then
+    if (Good.INVISIBLE == Good.GetVisible(btnGo)) then
       return
     end
     if (0 < SelIndex) then
@@ -808,7 +808,7 @@ function PlayMyRound()
       PlayCards(pc, m)
     end
   elseif (not FirstRound and PtInRect(mx, my, 0, H - 100, 100, H)) then -- Pass.
-    if (0 == Good.GetVisible(btnPass)) then
+    if (Good.INVISIBLE == Good.GetVisible(btnPass)) then
       return
     end
     ResetCardsPos(pc)
