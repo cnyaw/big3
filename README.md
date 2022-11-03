@@ -2,7 +2,7 @@
 
 Created by Good Game Editor https://good-ed.blogspot.com <br/>
 Android download https://play.google.com/store/apps/details?id=weilican.big3 <br/>
-Play https://agile-hollows-18660.herokuapp.com/game/good/?pkg=big3.zip
+Play https://smallworld.idv.tw/game/good/play.html?pkg=big3.zip
 
 * 遊戲使用整副牌52張＋2張鬼牌。
 * 牌型包含（單張，對子，三條，四條，同花順），同花順最少３張沒有張數上限。
