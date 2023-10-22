@@ -149,8 +149,7 @@ function ArrangeCards(pc)
     local oy = CY_CARD * GetFace(c)
     local o = pc[i].o
     Good.AddChild(-1, o)                -- Re-zorder.
-    local x, y = GetCardPos(p, i)
-    Good.SetPos(o, x, y)
+    Good.SetPos(o, GetCardPos(p, i))
     if (1 == p) then                    -- Left player.
       Good.SetAnchor(o, 0.5, 0.5)
       Good.SetRot(o, 90)
