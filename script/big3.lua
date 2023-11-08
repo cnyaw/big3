@@ -370,7 +370,7 @@ function PlayCardsToTable(pc, m, r)
     local c = p.c
     Good.SetTexId(o, 0)
     Good.SetDim(o, CX_CARD * GetNumber(c), CY_CARD * GetFace(c), CX_CARD, CY_CARD)
-    Good.AddChild(-1, o)                -- Move zorder to topmost.
+    SetTopmost(o)
     LastSet[i] = p
     local n = 1 + GetCompareNumber(c)
     PossibleCards[n] = PossibleCards[n] - 1
